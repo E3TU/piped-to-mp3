@@ -19,6 +19,7 @@
     "vite": "^5.2.0"
   },
   "dependencies": {
+    "@fontsource/oxygen": "^5.0.13",
     "ytdl-core": "^4.11.5"
   }
 }
