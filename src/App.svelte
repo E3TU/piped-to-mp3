@@ -1,10 +1,28 @@
-<script>
+<script lang="ts">
   import "@fontsource/oxygen";
+  let data: any; 
+
+  async function fetchData() {
+    const res = await fetch("http://localhost:3000/test");
+    data = await res.json();
+    console.log(data.hello);
+  }
+  
+  let files: any;
+
+  $: if (files) {
+    for (const file of files) {
+      console.log(`${file.name}: ${file.size} bytes`);
+    }
+  }
+
+
 </script>
 
 <div class="container">
   <h1 class="heading">Convert your Piped playlists to mp3</h1>
-  <button id="upload-btn">Upload Files</button>
+  <input bind:files id="choose-files" multiple type="file">
+  <button on:click={fetchData}>Upload File(s)</button>
 </div>
 
 <style>
@@ -20,9 +38,8 @@
     color: #fff;
     margin-top: 3rem;
   }
-  #upload-btn{
+  #choose-files{
     margin-top: 2rem;
-    width: 8rem;
-    height: 3rem;
+    color: #fff;
   }
 </style>
