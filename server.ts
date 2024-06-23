@@ -2,6 +2,11 @@ import fs from "fs";
 import ytdl from "ytdl-core";
 import express, { Express, Request, Response } from "express";
 import cors from "cors";
+import multer from "multer";
+
+const app: Express = express();
+const upload = multer({ storage: multer.memoryStorage() });
+const used = process.memoryUsage();
 
 
 let url: string = "https://youtube.com/watch?v=XW6-00SqPHM";
@@ -9,12 +14,15 @@ let url: string = "https://youtube.com/watch?v=XW6-00SqPHM";
 // ytdl(url, {filter: "audioonly", quality: "highest" })
 //     .pipe(fs.createWriteStream("video.mp3"));
 
-const app: Express = express();
 app.use(cors());
+app.use(express.json());
+
+
 const port = process.env.PORT || 3000;
 
-app.get("/test", (req: Request, res: Response) => {
-  res.send({ hello: "Hello world" });
+app.post("/upload", upload.single("file"), (req: Request, res: Response) => {
+  const file = req.file;
+  console.log(file);
 });
 
 app.listen(port, () => {
