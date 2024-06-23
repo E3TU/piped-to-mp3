@@ -1,32 +1,40 @@
 <script lang="ts">
   import "@fontsource/oxygen";
-  let data: any; 
 
-  async function fetchData() {
-    const res = await fetch("http://localhost:3000/test");
-    data = await res.json();
-    console.log(data.hello);
+  let files: FileList;
+
+  function handleFileChange(event: any) {
+    files = event.target.files;
   }
-  
-  let files: any;
 
-  $: if (files) {
-    for (const file of files) {
-      console.log(`${file.name}: ${file.size} bytes`);
+  async function handleSubmit() {
+    const formData = new FormData();
+    formData.append('file', files[0]); // Assuming you are uploading a single file
+
+    try {
+        const response = await fetch('http://localhost:3000/upload', {
+            method: 'POST',
+            body: formData
+        });
+
+        // Handle response as needed
+    } catch (error) {
+        console.error('Error uploading file:', error);
     }
-  }
-
+}
 
 </script>
 
 <div class="container">
   <h1 class="heading">Convert your Piped playlists to mp3</h1>
-  <input bind:files id="choose-files" multiple type="file">
-  <button on:click={fetchData}>Upload File(s)</button>
+  <form on:submit|preventDefault={handleSubmit}>
+    <input type="file" bind:files on:change={handleFileChange} id="choose-files" />
+    <button type="submit">Upload File(s)</button>
+  </form>
 </div>
 
 <style>
-  .container{
+  .container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -34,11 +42,11 @@
     height: 100vh;
     width: 100%;
   }
-  .heading{
+  .heading {
     color: #fff;
     margin-top: 3rem;
   }
-  #choose-files{
+  #choose-files {
     margin-top: 2rem;
     color: #fff;
   }
