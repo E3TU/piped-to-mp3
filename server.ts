@@ -6,10 +6,9 @@ import multer from "multer";
 
 const app: Express = express();
 const upload = multer({ storage: multer.memoryStorage() });
-const used = process.memoryUsage();
 
 
-let url: string = "https://youtube.com/watch?v=XW6-00SqPHM";
+// let url: string = "https://youtube.com/watch?v=XW6-00SqPHM";
 
 // ytdl(url, {filter: "audioonly", quality: "highest" })
 //     .pipe(fs.createWriteStream("video.mp3"));
@@ -21,8 +20,9 @@ app.use(express.json());
 const port = process.env.PORT || 3000;
 
 app.post("/upload", upload.single("file"), (req: Request, res: Response) => {
-  const file = req.file;
-  console.log(file);
+  const file = req.file.buffer;
+  const fileContent = file.toString("utf-8");
+  console.log(fileContent);
 });
 
 app.listen(port, () => {
