@@ -20,9 +20,24 @@ app.use(express.json());
 const port = process.env.PORT || 3000;
 
 app.post("/upload", upload.single("file"), (req: Request, res: Response) => {
-  const file = req.file.buffer;
-  const fileContent = file.toString("utf-8");
-  console.log(fileContent);
+  const file: any = req.file.buffer;
+  const fileContent: string = file.toString("utf-8");
+
+  const lines: any = fileContent.split("\n");
+
+  const pipedLink: string = "https://piped.video/watch?v=";
+  
+  for (let i: number = 0; i < lines.length; i++) {
+    const line = lines[i].trim();
+    // console.log(line);
+    if(line.includes(pipedLink)) {
+      
+    }
+    else{
+
+    }
+  }
+  
 });
 
 app.listen(port, () => {
