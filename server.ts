@@ -26,15 +26,17 @@ app.post("/upload", upload.single("file"), (req: Request, res: Response) => {
   const lines: any = fileContent.split("\n");
 
   const pipedLink: string = "https://piped.video/watch?v=";
-  
+
   for (let i: number = 0; i < lines.length; i++) {
     const line = lines[i].trim();
     // console.log(line);
     if(line.includes(pipedLink)) {
-      
+      console.log("Ok");
+      break;
     }
     else{
-
+      console.log("File needs to contain piped links");
+      break;
     }
   }
   
